@@ -193,6 +193,11 @@ After running "Attach to Docker" you can debug the server in TypeScript source:
 - Set a breakpoint in `index.ts:9` and it will be hit as soon as the browser requests a new page,
 - Modify the message string in `index.ts:7` and after you have saved the file, the server running in Docker restarts and the browser shows the modified page.
 
+> **Please note**: if you would like the debugger to be attached *before* index.ts runs, so you can debug the server creation code itself (rather than just listener code), use `--inspect-brk` instead of `--inspect` when calling nodemon in the `debug` npm script:
+```json
+"debug": "nodemon --watch ./dist --inspect-brk=0.0.0.0:9222 --nolazy ./dist/index.js",
+```
+
 > **Please note**: when using Docker on Windows, modifying the source does not make nodemon restart node.js. On Windows nodemon cannot pick-up file changes from the mounted `dist` folder because of this [issue](https://github.com/docker/for-win/issues/56). The workaround is to add the `--legacy-watch` flag to nodemon in the `debug` npm script:
 ```json
 "debug": "nodemon --legacy-watch --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/index.js",
